@@ -1,0 +1,346 @@
+@import "tailwindcss";
+
+/* ═══════════════════ DESIGN TOKENS ═══════════════════ */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-headline: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: #FFFFFF;
+  --color-surface: #F3F4F6;
+  --color-border: #E5E7EB;
+  --color-text-primary: #111827;
+  --color-text-muted: #6B7280;
+
+  --color-accent-gold: #D6A228;
+  --color-accent-gold-light: #F5E6B8;
+  --color-accent-gold-dark: #B8891E;
+  --color-accent-models: #8B5CF6;
+  --color-accent-models-light: #C4B5FD;
+
+  --color-signal-healthy: #1E9E5A;
+  --color-signal-warn: #E08D2C;
+  --color-signal-danger: #DC2626;
+  --color-signal-active: #6366F1;
+
+  /* Dark mode overrides via CSS custom properties */
+  --color-dark-bg: #0B0D11;
+  --color-dark-surface: #161A22;
+  --color-dark-border: #23272F;
+  --color-dark-text-primary: #F3F4F6;
+  --color-dark-text-muted: #9CA3AF;
+}
+
+/* ═══════════════════ BASE STYLES ═══════════════════ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark body {
+  background-color: var(--color-dark-bg);
+  color: var(--color-dark-text-primary);
+}
+
+/* ═══════════════════ UTILITY CLASSES ═══════════════════ */
+.glass {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+.glass-light {
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+}
+
+.font-headline {
+  font-family: var(--font-headline);
+}
+
+/* ═══════════════════ ANIMATIONS ═══════════════════ */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-orb {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-orb {
+  animation: pulse-orb 8s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.4s ease-out forwards;
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 4s ease infinite;
+}
+
+/* Staggered entry animations */
+.hero-entry { opacity: 0; animation: fade-in-up 0.7s ease-out forwards; }
+.hero-entry-1 { animation-delay: 0.1s; }
+.hero-entry-2 { animation-delay: 0.2s; }
+.hero-entry-3 { animation-delay: 0.35s; }
+.hero-entry-4 { animation-delay: 0.5s; }
+.hero-entry-5 { animation-delay: 0.65s; }
+
+/* ═══════════════════ SCROLLBAR ═══════════════════ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--color-dark-border);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3F4451;
+}
+
+/* ═══════════════════ HERO GRADIENT TEXT ═══════════════════ */
+.hero-gradient-text {
+  background: linear-gradient(135deg, var(--color-accent-gold) 0%, #E8B84B 40%, #D6A228 70%, #C4891D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .hero-gradient-text {
+  background: linear-gradient(135deg, #F5D76E 0%, #E8B84B 40%, #D6A228 70%, #F5E6B8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Violet gradient for models section */
+.models-gradient-text {
+  background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 50%, #7C3AED 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════ DOT GRID PATTERN ═══════════════════ */
+.dot-grid {
+  background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.dark .dot-grid {
+  background-image: radial-gradient(circle, var(--color-dark-border) 1px, transparent 1px);
+}
+
+/* ═══════════════════ CARD STYLES ═══════════════════ */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px -8px rgba(214, 162, 40, 0.15);
+  border-color: var(--color-accent-gold);
+}
+
+.dark .card-hover:hover {
+  box-shadow: 0 12px 40px -8px rgba(214, 162, 40, 0.1);
+}
+
+/* Models section card hover */
+.card-hover-models:hover {
+  box-shadow: 0 12px 40px -8px rgba(139, 92, 246, 0.15);
+  border-color: var(--color-accent-models);
+}
+
+/* ═══════════════════ CHIP STYLES ═══════════════════ */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.chip:hover {
+  border-color: var(--color-accent-gold);
+  color: var(--color-accent-gold);
+}
+
+.chip.active {
+  background: var(--color-accent-gold);
+  border-color: var(--color-accent-gold);
+  color: #FFFFFF;
+}
+
+.dark .chip {
+  border-color: var(--color-dark-border);
+  background: var(--color-dark-surface);
+  color: var(--color-dark-text-muted);
+}
+
+.dark .chip:hover {
+  border-color: var(--color-accent-gold);
+  color: var(--color-accent-gold);
+}
+
+.dark .chip.active {
+  background: var(--color-accent-gold);
+  border-color: var(--color-accent-gold);
+  color: #FFFFFF;
+}
+
+/* ═══════════════════ LOADING SKELETON ═══════════════════ */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-surface) 25%, #e8e8e8 50%, var(--color-surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.5rem;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg, var(--color-dark-surface) 25%, #1E2330 50%, var(--color-dark-surface) 75%);
+  background-size: 200% 100%;
+}
+
+/* ═══════════════════ TOOLTIP ═══════════════════ */
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.375rem 0.75rem;
+  background: var(--color-text-primary);
+  color: var(--color-bg);
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 50;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+}
+
+/* ═══════════════════ SIGNAL BADGES ═══════════════════ */
+.badge-healthy {
+  background-color: #ECFDF5;
+  color: var(--color-signal-healthy);
+  border: 1px solid #A7F3D0;
+}
+
+.badge-warn {
+  background-color: #FFFBEB;
+  color: var(--color-signal-warn);
+  border: 1px solid #FDE68A;
+}
+
+.badge-danger {
+  background-color: #FEF2F2;
+  color: var(--color-signal-danger);
+  border: 1px solid #FECACA;
+}
+
+.dark .badge-healthy {
+  background-color: rgba(30, 158, 90, 0.1);
+  border-color: rgba(30, 158, 90, 0.3);
+}
+
+.dark .badge-warn {
+  background-color: rgba(224, 141, 44, 0.1);
+  border-color: rgba(224, 141, 44, 0.3);
+}
+
+.dark .badge-danger {
+  background-color: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+/* ═══════════════════ NETWORK GRAPH ═══════════════════ */
+.network-graph {
+  background: var(--color-surface);
+  border-radius: 1rem;
+  border: 1px solid var(--color-border);
+}
+
+.dark .network-graph {
+  background: var(--color-dark-surface);
+  border-color: var(--color-dark-border);
+}

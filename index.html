@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/Forkling_logo.png" />
+    <link rel="apple-touch-icon" href="/Forkling_logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forkling — Discover Open-Source Repos & LLMs</title>
+    <meta name="description" content="Explore open-source repositories, compare projects side-by-side, and discover open-source LLMs — all from one beautifully designed tool." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Forkling — Discover Open-Source Repos & LLMs" />
+    <meta property="og:description" content="Explore open-source repositories, compare projects, and discover open-source LLMs." />
+    <meta property="og:site_name" content="Forkling" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script>
+      // Prevent flash of wrong theme
+      (function () {
+        var ALLOWED = ['dark', 'light'];
+        try {
+          var stored = localStorage.getItem('forkling_theme');
+          if (stored && ALLOWED.indexOf(stored) !== -1 && stored === 'dark') {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (_) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
