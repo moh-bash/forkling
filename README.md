@@ -129,10 +129,5 @@ MIT
 
 ---
 
-## 🙏 Acknowledgements
-
-Forkling's repo-exploration concept builds on ideas from [AOSSIE's OrgExplorer](https://gitlab.com/aossie/org-explorer).
-
----
 
 > 🦎 *Forky: that's the whole tour. Go poke around, fork something, and if you get stuck — CONTRIBUTING.md has you covered. See you in the network graph.*
