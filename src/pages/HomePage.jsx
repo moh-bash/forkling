@@ -4,6 +4,7 @@ import { searchRepos } from '@/api/github';
 import RepoCard from '@/components/RepoCard';
 import FilterChips from '@/components/FilterChips';
 import { FiSearch, FiShuffle, FiCode, FiGlobe, FiLayers, FiLoader } from 'react-icons/fi';
+import { FaClockRotateLeft } from 'react-icons/fa6';
 
 const SKELETON_COUNT = 6;
 
@@ -31,7 +32,8 @@ function RepoCardSkeleton() {
 }
 
 export default function HomePage() {
-  const { addRecentSearch } = useApp();
+  const { addRecentSearch, recentSearches } = useApp();
+  const [showRecent, setShowRecent] = useState(false);
   const [query, setQuery] = useState('');
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -85,14 +87,28 @@ export default function HomePage() {
     fetchRepos(query, newFilters, 1);
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (query.trim()) {
-      addRecentSearch(query.trim());
+  const handleSearch = (e, searchQuery = query) => {
+    e?.preventDefault();
+    if (searchQuery.trim()) {
+      addRecentSearch(searchQuery.trim());
     }
     setPage(1);
-    fetchRepos(query, filters, 1);
+    fetchRepos(searchQuery, filters, 1);
   };
+
+  const searchHistory = recentSearches.slice(0,5).map((search, index) => (
+    <button
+      key={index}
+      onMouseDown={() => {
+        setQuery(search); 
+        setShowRecent(false);
+        handleSearch(null, search);
+      }}
+      className="flex items-center gap-2 w-auto px-3 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-accent-gold transition-colors bg-accent-gold/5 dark:bg-accent-gold/10 rounded-xl">
+      <FaClockRotateLeft />
+      {search}
+    </button>
+  ));
 
   const handleSurpriseMe = async () => {
     const randomQueries = ['react', 'rust cli', 'python ml', 'go web', 'typescript api', 'swift ios', 'kotlin android', 'devtools', 'data visualization', 'game engine'];
@@ -111,7 +127,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* ═══════ HERO SECTION ═══════ */}
-      <section className="relative overflow-hidden pt-8 pb-12 md:pt-12 md:pb-16">
+      <section className="relative pt-8 pb-12 md:pt-12 md:pb-16">
         {/* Ambient orbs */}
         <div className="absolute -top-24 left-1/3 w-[500px] h-[500px] rounded-full bg-accent-gold/10 dark:bg-accent-gold/5 blur-3xl pointer-events-none animate-pulse-orb" />
         <div className="absolute top-48 -right-16 w-96 h-96 rounded-full bg-amber-400/8 dark:bg-amber-400/4 blur-3xl pointer-events-none animate-pulse-orb" style={{ animationDelay: '-4s' }} />
@@ -147,22 +163,36 @@ export default function HomePage() {
           </p>
 
           {/* Search bar */}
-          <form onSubmit={handleSearch} className="hero-entry hero-entry-4 max-w-2xl mx-auto mb-6">
-            <div className="flex items-center bg-white dark:bg-[#161A22] border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl shadow-gray-200/40 dark:shadow-black/30 focus-within:border-accent-gold focus-within:shadow-accent-gold/20 transition-all duration-200">
-              <FiSearch className="ml-5 text-gray-400 text-lg flex-shrink-0" />
-              <input
-                type="text"
-                value={query}
-                onChange={e => setQuery(e.target.value)}
-                placeholder="Search repos, orgs, or owner/repo..."
-                className="flex-1 px-4 py-4 bg-transparent text-sm sm:text-base text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="mr-2 px-5 py-2.5 bg-accent-gold text-white text-sm font-bold rounded-xl hover:bg-accent-gold-dark transition-colors"
-              >
-                Search
-              </button>
+          <form onSubmit={handleSearch} className="relative hero-entry z-50 hero-entry-4 max-w-2xl mx-auto mb-6">
+            <div className="bg-white dark:bg-[#161A22] border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl shadow-gray-200/40 dark:shadow-black/30 focus-within:border-accent-gold focus-within:shadow-accent-gold/20 transition-all duration-200">
+              <div className="flex items-center">
+                <FiSearch className="ml-5 text-gray-400 text-lg flex-shrink-0" />
+                <input
+                  type="text"
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  onFocus={() => recentSearches.length && setShowRecent(true)}
+                  onBlur={() => setShowRecent(false)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      setShowRecent(false);
+                    }
+                  }}
+                  placeholder="Search repos, orgs, or owner/repo..."
+                  className="flex-1 px-4 py-4 bg-transparent text-sm sm:text-base text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="mr-2 px-5 py-2.5 bg-accent-gold text-white text-sm font-bold rounded-xl hover:bg-accent-gold-dark transition-colors"
+                >
+                  Search
+                </button>
+              </div>
+              {showRecent && (
+                <div className="absolute left-0 right-0 top-full mt-2 flex flex-col gap-2 px-4 py-2 bg-white dark:bg-[#161A22] border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg">
+                  {searchHistory}
+                </div>
+              )}
             </div>
           </form>
 
